@@ -1,0 +1,19 @@
+button {
+    width: 31.7%;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 1px solid #BC5457;
+    border-radius: 0.4rem;
+    background: #E56B6F;
+    color: #FFFFFF;
+    min-width: 8rem;
+    padding: 0.8rem 1.2rem;
+    margin-top: 2rem;
+    transition: 0.3s;
+}
+  
+button:hover{
+    background: #BC5457;
+  
+}
+  

@@ -1,0 +1,32 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+}
+
+input {
+    border: 1px solid #BC5457;
+    width: 30%;
+    font-size: 0.9rem;
+    padding: 0.8rem;
+    border-radius: 0.4rem;
+    transition: 0.2s;
+}
+
+input:focus,
+input:hover {
+  outline: none;
+  background: white;
+  box-shadow: 0 0 0 3px #EEB3B5;
+}
+
+label {
+    text-align: initial;
+    width: 32%;
+    font-size: 1rem;
+    line-height: 1;
+    padding-top: 1.2rem;
+    padding-bottom: 0.6rem;
+} 
+

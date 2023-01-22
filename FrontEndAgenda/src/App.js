@@ -1,9 +1,10 @@
 import './App.css';
+import Routes from './routes/Routes';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-     <h1>Agenda</h1>
+     <Routes />
     </div>
   );
 }
