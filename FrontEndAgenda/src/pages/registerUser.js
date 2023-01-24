@@ -1,13 +1,51 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Button from "../components/Button";
 import Input from "../components/Input/index";
 
+import { Navigate, Link } from "react-router-dom";
+import api from "../service/api";
+
 
 const RegisterUser = () => {
+    const test = () => {
+        return <Navigate replace to="/login" />;
+    }
+    test()
+    const registerNewUser = async (user) => {
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+        const result = await api.post(`users/register`, user)
+            .then((resposta) => resposta.data)
+            .then((json) => console.log(json))
+            .catch((error) => console.error(error))
+        console.log("result")
+        console.log(result)
+        return <Navigate replace to="/login" />;
+    };
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [click, setclick] = useState(false);
+
+  const clicked = (value) => {
+      setclick(value)
+  }
+
+  useEffect(() => {
+      if(name != null && email != null && password != null){
+          const user = {
+              username: name,
+              email: email,
+              password: password
+          }
+          registerNewUser(user);
+          setName(null);
+          setEmail(null);
+          setPassword(null);
+          setclick(false)
+      }
+      setclick(false)
+
+  }, [click]);
 
   return (
     <>
@@ -34,11 +72,12 @@ const RegisterUser = () => {
           value={password}
           onChange={setPassword}
         />
-      </form>
 
-      <Button
-        title='Cadastrar'
-      />
+      </form>
+            <Button
+                title='Cadastrar' onClick={clicked}
+            />
+
 
     </>
   );

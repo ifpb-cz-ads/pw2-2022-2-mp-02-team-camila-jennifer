@@ -1,9 +1,12 @@
 import './style.css';
 
-const Button = ({ title, type}) => {
+const Button = ({ title, type, onClick}) => {
+
+
+
     return (
         <>
-           <button type='type'>
+           <button type={type} onClick={() => onClick(true)} >
                 {title}
            </button>
         </>

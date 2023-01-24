@@ -1,10 +1,11 @@
 import './App.css';
-import Routes from './routes/Routes';
+import AppRoutes from './routes';
+import api from './service/api'
 
 const App = () => {
   return (
     <div className="App">
-     <Routes />
+     <AppRoutes />
     </div>
   );
 }

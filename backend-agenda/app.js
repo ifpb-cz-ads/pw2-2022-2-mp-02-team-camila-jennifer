@@ -65,6 +65,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+const cors = require('cors');
+app.use(cors());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  app.use(cors());
+  next();
+});
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/contato', contatoRouter);

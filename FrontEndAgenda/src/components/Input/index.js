@@ -1,14 +1,15 @@
 import './style.css';
 
-const Input = ({ id, label, type, placeholder, handleChange }) => {
+const Input = ({ value, label, type, placeholder, onChange }) => {
+
     return (
         <div className="container">
             <label htmlFor='id' >{label}:</label>
             <input
                 type={type}
                 placeholder={placeholder}
-                value={id} 
-                onChange={(e) => handleChange(e.value)}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
             />
         </div>
     )

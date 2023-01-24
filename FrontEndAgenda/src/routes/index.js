@@ -1,4 +1,3 @@
-import './App.css';
 
 import EditContact from '../pages/editContact';
 import EditUser from '../pages/editUser';
@@ -30,4 +29,4 @@ const AppRoutes = () => {
   );
 }
 
-export default Routes;
+export default AppRoutes;
