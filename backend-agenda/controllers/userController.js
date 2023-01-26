@@ -27,11 +27,11 @@ const validateCodeUser = (email) => {
   }
   try {
     sgMail
-        .send(msg)
-        .then((response) => {
-          console.log(response[0].headers)
-          console.log(response[0].statusCode + "\n\n" + "Cole o código de 6 digitos enviado por email para confirmar seu cadastro")
-        })
+      .send(msg)
+      .then((response) => {
+        console.log(response[0].headers)
+        console.log(response[0].statusCode + "\n\n" + "Cole o código de 6 digitos enviado por email para confirmar seu cadastro")
+      })
     return value;
   }
   catch (error) {
@@ -40,7 +40,7 @@ const validateCodeUser = (email) => {
 };
 
 // Cadastrar usuário
-exports.userCreate = async(req, res) => {
+exports.userCreate = async (req, res) => {
   let user = null;
   try {
     user = await User.findOne({
@@ -48,12 +48,12 @@ exports.userCreate = async(req, res) => {
         email: req.body.email
       }
     });
-  } catch(err) {
-    res.json({ message: err.message} );
+  } catch (err) {
+    res.json({ message: err.message });
   }
 
   if (user != null) {
-    return res.status(400).json({ message: 'E-mail já cadastrado.'} );
+    return res.status(400).json({ message: 'E-mail já cadastrado.' });
   }
 
   const salt = await bcrypt.genSalt(10);
@@ -61,17 +61,17 @@ exports.userCreate = async(req, res) => {
   const newUser = Object.assign({}, req.body);
   newUser.password = hashedPassword;
   newUser.code = validateCodeUser(newUser.email);
-  
+
   try {
     user = await User.create(newUser);
     res.json({ usuario: user });
-  } catch(err) {
-    res.json({ message: err.message} );
+  } catch (err) {
+    res.json({ message: err.message });
   }
 };
 
 // Fazer login
-exports.userLogin = async(req, res) => {
+exports.userLogin = async (req, res) => {
   let user = null;
   try {
     user = await User.findOne({
@@ -79,7 +79,7 @@ exports.userLogin = async(req, res) => {
         email: req.body.email
       }
     });
-  } catch(err) {
+  } catch (err) {
     res.json({ message: err.message });
   }
 
@@ -96,7 +96,7 @@ exports.userLogin = async(req, res) => {
   console.log("user")
   console.log(user)
 
-  if(user.validatecode != null){
+  if (user.validatecode != null) {
     const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
     res.header('Auth-Token', token).json({ token: token });
   } else {
@@ -105,8 +105,8 @@ exports.userLogin = async(req, res) => {
 
 };
 
-// Atualizar usuário
-exports.userUpdate = async(req, res) => {
+// Validar usuário
+exports.userValidation = async (req, res) => {
   let user = null;
   try {
     user = await User.findOne({
@@ -114,23 +114,102 @@ exports.userUpdate = async(req, res) => {
         email: req.body.email
       }
     });
-  } catch(err) {
-    res.json({ message: err.message} );
+  } catch (err) {
+    res.json({ message: err.message });
   }
   try {
-    if(user.validatecode === null && user.code === req.body.validatecode){
+    if (user.validatecode === null && user.code === req.body.validatecode) {
       user.validatecode = req.body.validatecode
       console.log(req.body)
-      user = await User.update(req.body, {where: {
+      user = await User.update(req.body, {
+        where: {
           email: req.body.email
-        }});
+        }
+      });
       res.json("Validação realizada com sucesso");
-    } else if(user.validatecode !== null && user.code === req.body.validatecode) {
+    } else if (user.validatecode !== null && user.code === req.body.validatecode) {
       res.json("Email já verificado");
-    }else {
+    } else {
       res.json("Código invalido");
     }
   } catch (err) {
-    res.json({message: err.message});
+    res.json({ message: err.message });
+  }
+};
+
+// Atualizar um usuário
+exports.userUpdate = async (req, res) => {
+  const { username, email, password } = req.body;
+  let user = null;
+  try {
+    user = await User.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+    console.log(user.email, email)
+    if (user.email != email && email != null) {
+      user = await User.update(
+          {
+            email,
+            validatecode: null,
+            code: validateCodeUser(user.email)
+          },
+          {
+            where:
+                {
+                  id: req.params.id
+                }
+          }
+      );
+    }
+  } catch (err) {
+    res.json({ message: 'err.message' });
+  }
+    try {
+    user = await User.update(
+      {
+        username,
+        password
+      },
+      {
+        where:
+        {
+          id: req.params.id
+        }
+      }
+    );
+      res.json({message: 'Dados atualizados com sucesso'});
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+};
+
+// Listar todos os usuários
+exports.userList = async (req, res) => {
+  try {
+    const user = await User.findAll({
+      attributes: [
+        'username',
+        'email'
+      ]
+    });
+    res.json({ Users: user });
+  } catch (err) {
+    res.send({ message: err.message });
+  }
+};
+
+// Apagar um usuário
+exports.userDelete = async (req, res) => {
+  try {
+    const user = await User.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    res.json({ menssage: 'Usuário deletado com sucesso!!' });
+  } catch (err) {
+    res.send({ message: err.message });
   }
 };
