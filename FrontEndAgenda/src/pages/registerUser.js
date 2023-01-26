@@ -7,20 +7,7 @@ import api from "../service/api";
 
 
 const RegisterUser = () => {
-    const test = () => {
-        return <Navigate replace to="/login" />;
-    }
-    test()
-    const registerNewUser = async (user) => {
 
-        const result = await api.post(`users/register`, user)
-            .then((resposta) => resposta.data)
-            .then((json) => console.log(json))
-            .catch((error) => console.error(error))
-        console.log("result")
-        console.log(result)
-        return <Navigate replace to="/login" />;
-    };
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -28,6 +15,16 @@ const RegisterUser = () => {
 
   const clicked = (value) => {
       setclick(value)
+  }
+    const registerNewUser = async (user) => {
+        const result = await api.post(`users/register`, user)
+            .then((resposta) => resposta.data)
+            .then((json) => confirmRegister(json.usuario.username))
+            .catch((error) => console.error(error))
+    };
+
+  const confirmRegister = (username) => {
+      return alert(`${username} seu cadastrado foi realizado com sucesso!`);
   }
 
   useEffect(() => {
@@ -41,7 +38,7 @@ const RegisterUser = () => {
           setName(null);
           setEmail(null);
           setPassword(null);
-          setclick(false)
+          setclick(false);
       }
       setclick(false)
 
@@ -74,6 +71,16 @@ const RegisterUser = () => {
         />
 
       </form>
+       <Link to="/validation">
+           <label style={{cursor: "pointer", textDecoration: "none",
+               color: "#f0576b",
+               display: "flex",
+               justifyContent: "center",
+               alignItems: "center",
+               textAlign: "center",
+               width: "auto",}}>Efetue validação</label>
+
+       </Link>
             <Button
                 title='Cadastrar' onClick={clicked}
             />

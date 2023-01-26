@@ -1,13 +1,41 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Button from "../components/Button";
 import Input from "../components/Input/index";
+import api from "../service/api";
 
 
 const Validation = () => {
 
-  const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
+    const validateUser = async (validation) => {
+        console.log(validation)
+        const result = await api.put(`users/validation`, validation)
+            .then((resposta) => resposta.data)
+            .then((json) => console.log(json))
+            .catch((error) => console.error(error))
+    };
 
+    const [email, setEmail] = useState(null);
+    const [code, setCode] = useState(null);
+    const [click, setclick] = useState(false);
+
+    const clicked = (value) => {
+        setclick(value)
+    }
+
+    useEffect(() => {
+        if(email != null && code != null){
+            const validation = {
+                email: email,
+                validatecode: parseInt(code)
+            }
+            validateUser(validation);
+            setEmail(null);
+            setCode(null);
+            setclick(false);
+        }
+        setclick(false)
+
+    }, [click]);
 
     return (
       <>
@@ -30,7 +58,7 @@ const Validation = () => {
         </form>
 
         <Button 
-          title='Validar'
+          title='Validar' onClick={clicked}
         />
       </>
     );
