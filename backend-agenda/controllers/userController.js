@@ -98,7 +98,7 @@ exports.userLogin = async (req, res) => {
 
   if (user.validatecode != null) {
     const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
-    res.header('Auth-Token', token).json({ token: token });
+    res.header('Auth-Token', token).json({ token: token, user: user });
   } else {
     res.json("Valide seu email");
   }

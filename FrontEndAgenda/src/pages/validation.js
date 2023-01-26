@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import Button from "../components/Button";
 import Input from "../components/Input/index";
 import api from "../service/api";
+import {Link} from "react-router-dom";
 
 
 const Validation = () => {
@@ -39,7 +40,7 @@ const Validation = () => {
 
     return (
       <>
-        <h1 style={{marginTop:100}}>Validação</h1>
+        <h1 style={{marginTop:100}}>Efetue Validação</h1>
         <form>
             <Input 
               label= 'Email'
@@ -56,7 +57,16 @@ const Validation = () => {
               onChange={setCode}
             />
         </form>
+         <Link to="/login">
+              <label style={{cursor: "pointer", textDecoration: "none",
+                  color: "#f0576b",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
+                  width: "auto",}}>Efetue login</label>
 
+         </Link>
         <Button 
           title='Validar' onClick={clicked}
         />
