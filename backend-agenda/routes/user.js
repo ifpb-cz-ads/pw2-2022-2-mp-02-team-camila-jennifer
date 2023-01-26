@@ -111,9 +111,9 @@ router.post('/login', userController.userLogin);
 /**
  * @swagger
  * /users/validation:
- *   post:
- *     summary: Login de usuario.
- *     description: Realiza login do usuário.
+ *   put:
+ *     summary: Validação do Usuário.
+ *     description: Realiza a validação do email.
  *     requestBody:
  *       required: true
  *       content:
@@ -134,6 +134,83 @@ router.post('/login', userController.userLogin);
  *       400:
  *         description: Código invalido.
  */
-router.put('/validation', userController.userUpdate);
+router.put('/validation', userController.userValidation);
+
+/**
+ * @swagger
+ * /users/updateUser/{id}:
+ *   put:
+ *     summary: Atualiza do Usuário.
+ *     description: Atualização dos dados de um usuário.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *                properties:
+ *                 usermane:
+ *                   type: string
+ *                   description: Nome do usuario.
+ *                   example: Camila Jennifer
+ *                 email:
+ *                   type: string
+ *                   example: camila.jennifer@gmail.com
+ *                 password:
+ *                   type: string
+ *                   description: Senha do usuario.
+ *                   example: xdfh648ffvn
+ *     responses:
+ *       201:
+ *         description: Validação realizada com sucesso
+ *       200:
+ *         description: Email já verificado
+ *       400:
+ *         description: Código invalido.
+ */
+router.put('/updateUser/:id', userController.userUpdate);
+   
+ /**
+  * @swagger
+  * /users/listUsers:
+  *   get:
+  *     summary: Recupera a lista de usuários.
+  *     description: Recupera a lista de usuários
+  *     responses:
+  *       200:
+  *         description: Uma lista de usuários.
+  *         content:
+  *           application/json:
+  *             schema:
+  *               properties:
+  *                 contatos:
+  *                   type: array
+  *                   items:
+  *                     $ref: '#/components/schemas/Usuario'
+ */
+router.get('/listUsers', userController.userList);
+
+
+/**
+  * @swagger
+  * /delUser/{id}:
+  *   delete:
+  *     summary: Apaga um usuário.
+  *     parameters:
+  *       - in: header
+  *         name: Auth-Token
+  *         schema:
+  *           type: string
+  *         required: true
+  *       - in: path
+  *         name: id
+  *         required: true
+  *         description: ID numérico do usuário a ser recuperado.
+  *         schema:
+  *           type: integer
+  *     responses:
+  *       204:
+  *         description: Usuário deletado com sucesso.
+ */
+router.delete('/delUser/:id', userController.userDelete);
 
 module.exports = router;

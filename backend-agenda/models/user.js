@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         email: {
             type: Sequelize.STRING,
-            allowNull: false,
+            allowNull: true,
             allowEmpty: false,
             len: [6, 255]
         },
