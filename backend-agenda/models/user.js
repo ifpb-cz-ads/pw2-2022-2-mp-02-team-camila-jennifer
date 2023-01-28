@@ -34,6 +34,11 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
             allowEmpty: false,
             len: [6, 6]
+        },
+        userAdmin: {
+            type: Sequelize.BOOLEAN,
+            allowNull: true,
+            allowEmpty: false,
         }
     });
 

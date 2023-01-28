@@ -95,7 +95,15 @@ exports.userLogin = async (req, res) => {
 
   if (user.validatecode != null) {
     const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
-    res.header('Auth-Token', token).json({ token: token, user: {id: user.id, username: user.username, email: user.email}});
+    res.header('Auth-Token', token).json({
+      token: token,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        userAdmin: user.userAdmin
+      }
+    });
   } else {
     res.json("Valide seu email");
   }
@@ -147,23 +155,23 @@ exports.userUpdate = async (req, res) => {
     console.log(user.email, email)
     if (user.email != email && email != null) {
       user = await User.update(
+        {
+          email,
+          validatecode: null,
+          code: validateCodeUser(user.email)
+        },
+        {
+          where:
           {
-            email,
-            validatecode: null,
-            code: validateCodeUser(user.email)
-          },
-          {
-            where:
-                {
-                  id: req.params.id
-                }
+            id: req.params.id
           }
+        }
       );
     }
   } catch (err) {
     res.json({ message: 'err.message' });
   }
-    try {
+  try {
     user = await User.update(
       {
         username,
@@ -176,7 +184,7 @@ exports.userUpdate = async (req, res) => {
         }
       }
     );
-      res.json({message: 'Dados atualizados com sucesso'});
+    res.json({ message: 'Dados atualizados com sucesso' });
   } catch (err) {
     res.json({ message: err.message });
   }
@@ -188,10 +196,11 @@ exports.userList = async (req, res) => {
     const user = await User.findAll({
       attributes: [
         'username',
-        'email'
+        'email',
+        'userAdmin'
       ]
     });
-    res.json({ Users: user });
+    res.json({ User: user });
   } catch (err) {
     res.send({ message: err.message });
   }
