@@ -57,7 +57,7 @@ const Validation = () => {
               onChange={setCode}
             />
         </form>
-         <Link to="/login">
+         <Link to="/">
               <label style={{cursor: "pointer", textDecoration: "none",
                   color: "#f0576b",
                   display: "flex",
