@@ -14,7 +14,13 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
         allowEmpty: false
-    }
+    },
+    idUser: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        allowEmpty: true,
+        len: [6, 6]
+    },
   });
 
   return Contato;

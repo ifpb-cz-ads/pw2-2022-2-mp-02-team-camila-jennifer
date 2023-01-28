@@ -43,7 +43,7 @@
  
  /**
   * @swagger
-  * /contato:
+  * /contato/:id:
   *   get:
   *     summary: Recupera a lista de contatos.
   *     description: Recupera a lista de contatos da agenda. Pode ser usado sem autenticação.
@@ -59,7 +59,7 @@
   *                   items:
   *                     $ref: '#/components/schemas/Contato'
  */
- router.get('/', contatoController.contatosList);
+ router.get('/list/:id', contatoController.contatosList);
  
  /**
   * @swagger

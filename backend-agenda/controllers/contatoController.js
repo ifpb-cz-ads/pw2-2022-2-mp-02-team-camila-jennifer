@@ -4,7 +4,17 @@ const Contato = db.contato;
 // Listar todos os contatos
 exports.contatosList = async(req, res) => {
   try {
-    const contatos = await Contato.findAll();
+    const contatos = await Contato.findAll({
+      attributes: [
+        'id',
+        'nome',
+        'telefone'
+       ]},
+      {
+       where: {
+          idUser: req.params.idUser
+       }
+    });
     res.json({ contatos: contatos });
   } catch(err) {
     res.send({ message: err.message });
