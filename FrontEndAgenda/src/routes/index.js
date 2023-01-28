@@ -14,9 +14,9 @@ const AppRoutes = () => {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<RegisterUser />} />
+          <Route path='/' element={<Login /> } />
+          <Route path='/registerUser' element={<RegisterUser />} />
           <Route path='/validation' element={<Validation /> } />
-          <Route path='/login' element={<Login /> } />
           <Route path='/editUser' element={<EditUser /> } />
           <Route path='/registerContatct' element={<RegisterContact /> } />
           <Route path='/editContatct' element={<EditContact /> } />

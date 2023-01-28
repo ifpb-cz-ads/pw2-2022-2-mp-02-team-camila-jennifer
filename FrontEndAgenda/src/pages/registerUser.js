@@ -39,9 +39,9 @@ const RegisterUser = () => {
           setEmail(null);
           setPassword(null);
           setclick(false);
+
       }
       setclick(false)
-
   }, [click]);
 
   return (

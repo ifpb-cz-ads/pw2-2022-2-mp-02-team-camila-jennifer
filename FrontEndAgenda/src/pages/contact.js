@@ -2,6 +2,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
+import {useContext, useEffect, useState} from "react";
+import GlobalContext from "../Context/globalContexto";
+import {Link, Navigate} from "react-router-dom";
+import api from "../service/api";
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 110 },
@@ -46,22 +50,68 @@ const columns = [
 
 ];
 
-const rows = [
-  { id: 1, name: 'Snow', phone: 839524747 },
-  { id: 2, name: 'Snow', phone: 839524747 },
-
-];
 const Contact =() => {
+    const [user, setUser] = useContext(GlobalContext);
+
+  const [contact, setContact] = useState([])
+  const [rows, setRows] = useState([])
+  const contactUser = async (id) => {
+      console.log(id)
+    const result = await api.get(`contato/list/${id}`)
+        .then((resposta) => resposta.data)
+        .then((json) => {
+            console.log(json.contatos)
+            setContact(json.contatos)
+        })
+        .catch((error) => console.error(error))
+    };
+
+
+  const contactROws = () => {
+    let row = [];
+    console.log("contact")
+    console.log(contact)
+   contact.map(i =>  row.push({
+        id: i.id,
+        name: i.nome,
+        phone: i.telefone
+    }));
+    console.log("row")
+    console.log(row)
+    setRows(row)
+
+}
+
+  useEffect(() => {
+      console.log("user")
+      console.log(user)
+      // contactUser(13)
+
+      if(user) {
+          console.log("id")
+          console.log(user.id)
+          contactUser(user.id)
+      }
+  }, [])
+
+    useEffect(() => {
+        console.log("contact us")
+        console.log(contact)
+        if(contact.length > 0){
+            contactROws()
+        }
+    }, [contact])
   return (
     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
       <div style={{ display: 'flex', flexDirection: 'row',  justifyContent: 'flex-end', width:'90%'}}>
           <p> Editar Dados</p>
-          <p style={{ marginLeft: 40 }}> Sair</p>
+          <Link to="/   " >
+            <p style={{ marginLeft: 40 }}> Sair</p>
+          </Link>
       </div>
 
       <h1 style={{ marginTop: 18 }}> Contatos </h1>
-
       <div style={{ width: '54%', display:'flex', justifyContent:'flex-start' }}>
         <Button
           variant="contained"
