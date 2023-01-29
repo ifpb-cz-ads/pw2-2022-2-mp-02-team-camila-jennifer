@@ -8,12 +8,14 @@ import GlobalContext from "../Context/globalContexto";
 import {Link, Navigate} from "react-router-dom";
 import api from "../service/api";
 import {Done, Edit, SaveAlt} from "@mui/icons-material";
+import EditContact from "./editContact";
 
 const Contact =() => {
 
   const [user, setUser] = useContext(GlobalContext);
   const [contact, setContact] = useState([])
   const [rows, setRows] = useState([])
+  const [isUpdate, setIsUpdate] = useState({isUpdate: false, id: null})
 
   const contactUser = async (id) => {
     await api.get(`contato/list/${id}`)
@@ -38,17 +40,10 @@ const Contact =() => {
     };
 
   // TODO REFATORA ESSE CODIGO
-  // const handleUpdate = async (id) => {
-  //   await api.patch(`contato/${id}`,{headers: {
-  //       'Auth-Token': localStorage.getItem("token")
-  //       }})
-  //       .then((resposta) => resposta.data)
-  //       .then((json) => {
-  //           console.log(json)
-  //           // contactUser(user.id)
-  //       })
-  //       .catch((error) => console.error(error))
-  //   };
+  const handleUpdate = async (id) => {
+
+      setIsUpdate({isUpdate: true, id: id} );
+    };
   const columns = [
         { field: 'id', headerName: 'ID', width: 110 },
         {
@@ -72,8 +67,7 @@ const Contact =() => {
                         icon={<Edit />}
                         label="Editar"
                         style={{color: "green"}}
-                        // onClick={ () => handleUpdate(params.id)}
-
+                        onClick={ () => handleUpdate(params.id)}
                     />,
                     <GridActionsCellItem
                         icon={<DeleteIcon />}
@@ -94,13 +88,17 @@ const Contact =() => {
         phone: i.telefone
     }));
     setRows(row)
-}
+  }
+
+  const action = (value) => {
+      setIsUpdate({isUpdate: value, id: isUpdate.id} );
+  }
 
   useEffect(() => {
       if(user) {
           contactUser(user.id)
       }
-  }, [])
+  }, [isUpdate])
 
     useEffect(() => {
 
@@ -116,8 +114,8 @@ const Contact =() => {
 
       <div style={{ display: 'flex', flexDirection: 'row',  justifyContent: 'flex-end', width:'90%'}}>
           <p> Editar Dados</p>
-          <Link to="/   " >
-            <p style={{ marginLeft: 40 }}> Sair</p>
+          <Link to="/">
+            <p style={{ marginLeft: 40 }} onClick={ () => localStorage.removeItem('token')}> Sair</p>
           </Link>
       </div>
 
@@ -132,7 +130,7 @@ const Contact =() => {
         </Button>
       </div>
 
-      <Box sx={{ height: 400, width: '54%', marginTop: 2 }}>
+      <Box sx={{ height: 400, width: '75%', marginTop: 2 }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -143,6 +141,13 @@ const Contact =() => {
           experimentalFeatures={{ newEditingApi: true }}
         />
       </Box>
+        { isUpdate.isUpdate &&
+            <Box sx={{height: 400, width: '100%', marginTop: 2}}>
+                 <EditContact contactEdit={isUpdate.id} action={action}/>
+            </Box>
+        }
+        <br/>
+        <br/>
     </div>
   );
 }
