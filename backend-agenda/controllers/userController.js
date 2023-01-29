@@ -195,6 +195,7 @@ exports.userList = async (req, res) => {
   try {
     const user = await User.findAll({
       attributes: [
+        'id',
         'username',
         'email',
         'userAdmin'
