@@ -44,6 +44,7 @@
  */
 const express = require('express');
 const router = express.Router();
+const verify = require('../utils/verifyToken');
 
 // Importa o controller
 const userController = require('../controllers/userController');
@@ -167,7 +168,7 @@ router.put('/validation', userController.userValidation);
  *       400:
  *         description: Código invalido.
  */
-router.put('/updateUser/:id', userController.userUpdate);
+router.put('/updateUser/:id', verify, userController.userUpdate);
    
  /**
   * @swagger
@@ -187,7 +188,7 @@ router.put('/updateUser/:id', userController.userUpdate);
   *                   items:
   *                     $ref: '#/components/schemas/Usuario'
  */
-router.get('/listUsers', userController.userList);
+router.get('/listUsers', verify, userController.userList);
 
 
 /**
@@ -211,6 +212,6 @@ router.get('/listUsers', userController.userList);
   *       204:
   *         description: Usuário deletado com sucesso.
  */
-router.delete('/delUser/:id', userController.userDelete);
+router.delete('/delUser/:id', verify, userController.userDelete);
 
 module.exports = router;
