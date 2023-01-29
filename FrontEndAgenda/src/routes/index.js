@@ -7,7 +7,18 @@ import RegisterUser from '../pages/registerUser';
 import Validation from '../pages/validation';
 import Contact from '../pages/contact';
 import UserAdmin from '../pages/userAdmin';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
+import * as React from "react";
+
+
+const isLoggedIn = () => {
+  return localStorage.getItem('token') ? 'true' : false;
+};
+
+const PrivateRoute = ({Component}) => {
+  return isLoggedIn() ? <Component /> : <Navigate to='/' />;
+}
+
 
 const AppRoutes = () => {
   return (
@@ -16,12 +27,12 @@ const AppRoutes = () => {
         <Routes>
           <Route path='/' element={<Login /> } />
           <Route path='/registerUser' element={<RegisterUser />} />
-          <Route path='/validation' element={<Validation /> } />
-          <Route path='/editUser' element={<EditUser /> } />
-          <Route path='/registerContatct' element={<RegisterContact /> } />
-          <Route path='/editContatct' element={<EditContact /> } />
-          <Route path='/contact' element={<Contact /> } />
-          <Route path='/userAdmin' element={<UserAdmin /> } />
+          <Route path='/validation' element={<Validation/>}/>
+          <Route path='/editUser' element={<PrivateRoute Component={EditUser} />} />
+          <Route path='/registerContatct' element={<PrivateRoute Component={RegisterContact} />} />
+          <Route path='/editContatct' element={<PrivateRoute Component={EditContact} />} />
+          <Route path='/contact' element={<PrivateRoute Component={Contact}/>} />
+          <Route path='/userAdmin' element={<PrivateRoute Component={UserAdmin} />} />
         </Routes>
 
       </BrowserRouter>

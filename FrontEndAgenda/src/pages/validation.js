@@ -11,7 +11,7 @@ const Validation = () => {
         console.log(validation)
         const result = await api.put(`users/validation`, validation)
             .then((resposta) => resposta.data)
-            .then((json) => console.log(json))
+            .then((json) => alert(json))
             .catch((error) => console.error(error))
     };
 

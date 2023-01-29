@@ -113,7 +113,9 @@ const Contact =() => {
     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
       <div style={{ display: 'flex', flexDirection: 'row',  justifyContent: 'flex-end', width:'90%'}}>
-          <p> Editar Dados</p>
+          <Link to="/editUser">
+            <p> Editar perfil</p>
+          </Link>
           <Link to="/">
             <p style={{ marginLeft: 40 }} onClick={ () => localStorage.removeItem('token')}> Sair</p>
           </Link>
@@ -148,6 +150,10 @@ const Contact =() => {
         }
         <br/>
         <br/>
+
+        {
+            !user.id && ( <Navigate to="/" />)
+        }
     </div>
   );
 }

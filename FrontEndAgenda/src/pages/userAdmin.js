@@ -18,7 +18,9 @@ const UserAdmin = () => {
 
 
   const userAdmin = async () => {
-    await api.get(`users/listUsers`)
+    await api.get(`users/listUsers`,{headers: {
+      'Auth-Token': localStorage.getItem("token")
+    }})
       .then((resposta) => resposta.data)
       .then((json) => {
         setInformations(json.User)
