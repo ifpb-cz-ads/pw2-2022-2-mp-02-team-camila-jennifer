@@ -29,8 +29,8 @@ const AppRoutes = () => {
           <Route path='/registerUser' element={<RegisterUser />} />
           <Route path='/validation' element={<Validation/>}/>
           <Route path='/editUser' element={<PrivateRoute Component={EditUser} />} />
-          <Route path='/registerContatct' element={<PrivateRoute Component={RegisterContact} />} />
-          <Route path='/editContatct' element={<PrivateRoute Component={EditContact} />} />
+          <Route path='/registerContact' element={<PrivateRoute Component={RegisterContact} />} />
+          <Route path='/editContact' element={<PrivateRoute Component={EditContact} />} />
           <Route path='/contact' element={<PrivateRoute Component={Contact}/>} />
           <Route path='/userAdmin' element={<PrivateRoute Component={UserAdmin} />} />
         </Routes>
