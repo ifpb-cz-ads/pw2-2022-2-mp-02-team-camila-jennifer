@@ -40,8 +40,10 @@ const RegisterContact = () => {
       registerNew(contact);
       setName(null);
       setPhone(null);
+    }else {
+      setclick(false)
     }
-    setclick(false)
+
   }, [click]);
 
   return (
@@ -68,7 +70,7 @@ const RegisterContact = () => {
         title='Entrar' onClick={clicked}
       />
       {
-        user.id && (<Navigate to="/contact" />)
+          click && name && phone && (<Navigate to="/contact" />)
       }
     </>
   );

@@ -40,8 +40,9 @@ const RegisterUser = () => {
           setPassword(null);
           setclick(false);
 
+      }else {
+          setclick(false)
       }
-      setclick(false)
   }, [click]);
 
   return (

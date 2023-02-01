@@ -214,4 +214,6 @@ router.get('/listUsers', verify, userController.userList);
  */
 router.delete('/delUser/:id', verify, userController.userDelete);
 
+router.get('/getUser/:id', verify, userController.getUser);
+
 module.exports = router;

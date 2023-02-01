@@ -171,11 +171,14 @@ exports.userUpdate = async (req, res) => {
   } catch (err) {
     res.json({ message: 'err.message' });
   }
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt)
+  const newPassword = hashedPassword;
   try {
     user = await User.update(
       {
         username,
-        password
+        password: newPassword
       },
       {
         where:
@@ -217,6 +220,26 @@ exports.userDelete = async (req, res) => {
     });
     res.json({ menssage: 'Usuário deletado com sucesso!!' });
   } catch (err) {
+    res.send({ message: err.message });
+  }
+};
+
+// Buscar um usuário por email
+exports.getUser = async(req, res) => {
+  console.log(req.params.id)
+  try {
+    const user = await User.findOne(
+        {
+          attributes: [
+            'username',
+            'email'
+          ],
+          where: {
+            id: req.params.id
+          },
+        });
+    res.json({ user: user });
+  } catch(err) {
     res.send({ message: err.message });
   }
 };

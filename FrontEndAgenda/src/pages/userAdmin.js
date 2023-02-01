@@ -8,6 +8,8 @@ import GlobalContext from "../Context/globalContexto";
 import { Link, Navigate } from "react-router-dom";
 import api from "../service/api";
 import { Edit } from "@mui/icons-material";
+import EditContact from "./editContact";
+import EditUser from "./editUser";
 
 
 const UserAdmin = () => {
@@ -15,7 +17,7 @@ const UserAdmin = () => {
   const [user, setUser] = useContext(GlobalContext);
   const [informations, setInformations] = useState([]);
   const [rows, setRows] = useState([]);
-
+  const [isUpdate, setIsUpdate] = useState({isUpdate: false, id: null})
 
   const userAdmin = async () => {
     await api.get(`users/listUsers`,{headers: {
@@ -38,6 +40,14 @@ const UserAdmin = () => {
         })
         .catch((error) => console.error(error))
   };
+
+  const handleUpdate = async (id) => {
+    setIsUpdate({isUpdate: true, id: id} );
+  };
+
+  const action = (value) => {
+    setIsUpdate({isUpdate: value, id: isUpdate.id} );
+  }
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 110 },
@@ -63,7 +73,7 @@ const UserAdmin = () => {
           icon={<Edit />}
           label="Editar"
           style={{ color: "green" }}
-        // onClick={ () => handleUpdate(params.id)}
+          onClick={ () => handleUpdate(params.id)}
         />,
         <GridActionsCellItem
           icon={<DeleteIcon />}
@@ -81,7 +91,7 @@ const UserAdmin = () => {
     const result =  informations.filter(user => user.userAdmin == null)
     result.map(i => row.push({
       id: i.id,
-      nome: i.username,
+      name: i.username,
       email: i.email
     }));
     setRows(row)
@@ -89,7 +99,7 @@ const UserAdmin = () => {
 
   useEffect(() => {
     userAdmin()
-  }, [])
+  }, [isUpdate])
 
   useEffect(() => {
     if (Array.isArray(informations) && informations.length > 0 ) {
@@ -105,20 +115,29 @@ const UserAdmin = () => {
     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', width: '90%' }}>
-        <p> Editar Dados</p>
-        <p style={{ marginLeft: 40 }}> Sair</p>
+        <Link to="/editUser">
+          <p>Editar Dados</p>
+        </Link>
+        <Link to="/contact">
+          <p style={{ marginLeft: 40 }}>Meus contatos</p>
+        </Link>
+        <Link to="/">
+          <p style={{ marginLeft: 40 }}> Sair</p>
+        </Link>
       </div>
 
       <h1 style={{ marginTop: 18 }}> Usuário Admin </h1>
 
       <div style={{ width: '54%' }}>
-        <Button
-          variant="contained"
-          size="small"
-          style={{ background: '#E56B6F', border: '1px solid #BC5457', width: '10%' }}
-        >
-          Novo +
-        </Button>
+        <Link to='/registerUser'>
+          <Button
+            variant="contained"
+            size="small"
+            style={{ background: '#E56B6F', border: '1px solid #BC5457', width: '10%' }}
+          >
+            Novo +
+          </Button>
+        </Link>
       </div>
 
       <Box sx={{ height: 400, width: '54%', marginTop: 2 }}>
@@ -132,6 +151,12 @@ const UserAdmin = () => {
           experimentalFeatures={{ newEditingApi: true }}
         />
       </Box>
+      { isUpdate.isUpdate &&
+          <Box sx={{height: 400, width: '100%', marginTop: 2}}>
+            <EditUser userEdit={isUpdate.id} action={action}/>
+          </Box>
+      }
+
     </div>
   );
 }

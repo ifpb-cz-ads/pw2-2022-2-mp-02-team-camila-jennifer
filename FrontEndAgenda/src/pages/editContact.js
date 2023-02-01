@@ -13,7 +13,6 @@ const EditContact = ({contactEdit, action}) => {
   const [phone, setPhone] = useState('');
   const [user, setUser] = useContext(GlobalContext);
 
-
   const update = async (id) => {
       await api.get(`contato/${id}`,{headers: {
           'Auth-Token': localStorage.getItem("token")

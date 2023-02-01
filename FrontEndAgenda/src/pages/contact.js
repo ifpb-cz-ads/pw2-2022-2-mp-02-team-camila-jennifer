@@ -116,20 +116,29 @@ const Contact =() => {
           <Link to="/editUser">
             <p> Editar perfil</p>
           </Link>
+          {user.userAdmin &&
+              <Link to="/userAdmin">
+                  <p style={{ marginLeft: 40 }}> Usuários</p>
+              </Link>
+          }
           <Link to="/">
-            <p style={{ marginLeft: 40 }} onClick={ () => localStorage.removeItem('token')}> Sair</p>
+            <p style={{ marginLeft: 40 }}> Sair</p>
           </Link>
       </div>
 
       <h1 style={{ marginTop: 18 }}> Contatos </h1>
       <div style={{ width: '54%', display:'flex', justifyContent:'flex-start' }}>
-        <Button
-          variant="contained"
-          size="small"
-          style={{ background: '#E56B6F', border: '1px solid #BC5457', width: '10%' }}
-        >
-          Novo +
-        </Button>
+      <Link to='/registerContact'>
+          <Button
+              variant="contained"
+              size="small"
+              style={{ background: '#E56B6F', border: '1px solid #BC5457', width: '10%' }}
+
+          >
+              Novo +
+          </Button>
+      </Link>
+
       </div>
 
       <Box sx={{ height: 400, width: '75%', marginTop: 2 }}>

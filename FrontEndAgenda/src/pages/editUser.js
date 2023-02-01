@@ -1,13 +1,70 @@
-import { useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import Button from "../components/Button";
 import Input from "../components/Input/index";
+import GlobalContext from "../Context/globalContexto";
+import api from "../service/api";
+import {Navigate} from "react-router-dom";
 
 
-const EditUser = () => {
+const EditUser = ({userEdit, action}) => {
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [click, setClick] = useState(false);
+  const [user, setUser] = useContext(GlobalContext);
+
+  const getUser = async (id) => {
+    await api.get(`users/getUser/${id}`,{headers: {
+            'Auth-Token': localStorage.getItem("token")
+        }})
+        .then((resposta) => resposta.data)
+        .then((json) => {
+            console.log(json)
+            setName(json.user.username)
+            setEmail(json.user.email)
+        })
+        .catch((error) => console.error(error))
+  }
+
+  const update = async (id) => {
+      console.log()
+      const newUser = {
+          id: id,
+          username: name,
+          email: email,
+          password: password,
+      }
+      await api.put(`users/updateUser/${id}`, newUser, {
+          headers: {
+              'Auth-Token': localStorage.getItem("token")
+          }
+      })
+          .then((resposta) => resposta.data)
+          .then((json) => {
+              alert(json.message)
+          })
+          .catch((error) => console.error(error))
+  }
+    const clicked = async (value) => {
+       if(userEdit && name && email && password){
+           update(userEdit)
+           action(value)
+       } else if (name && email && password) {
+            update(user.id)
+           setClick(true)
+        }
+    }
+
+    useEffect( () => {
+        console.log(userEdit)
+        if (userEdit) {
+            getUser(userEdit)
+        }else {
+            setName(user.username)
+            setEmail(user.email)
+        }
+    }, [])
 
   return (
     <>
@@ -37,8 +94,12 @@ const EditUser = () => {
       </form>
 
       <Button
-        title='Confirmar'
+        title='Confirmar' onClick={clicked}
       />
+
+        {
+            click && ( <Navigate to="/contact" />)
+        }
 
     </>
   );
