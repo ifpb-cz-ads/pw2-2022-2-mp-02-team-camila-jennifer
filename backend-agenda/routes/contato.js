@@ -43,7 +43,7 @@
  
  /**
   * @swagger
-  * /contato/:id:
+  * /contato/list/:id:
   *   get:
   *     summary: Recupera a lista de contatos.
   *     description: Recupera a lista de contatos da agenda. Pode ser usado sem autenticação.

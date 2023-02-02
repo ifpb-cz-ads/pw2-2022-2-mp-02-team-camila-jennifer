@@ -77,6 +77,22 @@ const Login = () => {
                 </label>
 
             </Link>
+            <Link to="/registerUser">
+                <label
+                    style={{
+                        cursor: "pointer", textDecoration: "none",
+                        color: "#f0576b",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        textAlign: "center",
+                        width: "auto"
+                    }}
+                >
+                    Cadastre-se
+                </label>
+
+            </Link>
           <Button
             title='Entrar' onClick={clicked}
           />

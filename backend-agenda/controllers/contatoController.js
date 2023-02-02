@@ -8,11 +8,10 @@ exports.contatosList = async(req, res) => {
       attributes: [
         'id',
         'nome',
-        'telefone'
-       ]},
-      {
+        'telefone',
+       ],
        where: {
-          idUser: req.params.idUser
+          idUser: req.params.id
        }
     });
     res.json({ contatos: contatos });

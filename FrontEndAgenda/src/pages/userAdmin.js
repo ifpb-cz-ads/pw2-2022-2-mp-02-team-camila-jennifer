@@ -128,14 +128,14 @@ const UserAdmin = () => {
 
       <h1 style={{ marginTop: 18 }}> Usuário Admin </h1>
 
-      <div style={{ width: '54%' }}>
+      <div style={{ width: '54%', display:'flex', justifyContent:'flex-start' }}>
         <Link to='/registerUser'>
           <Button
             variant="contained"
             size="small"
             style={{ background: '#E56B6F', border: '1px solid #BC5457', width: '10%' }}
           >
-            Novo +
+            Novo+
           </Button>
         </Link>
       </div>

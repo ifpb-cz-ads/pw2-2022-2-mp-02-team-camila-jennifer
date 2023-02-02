@@ -127,7 +127,7 @@ const Contact =() => {
       </div>
 
       <h1 style={{ marginTop: 18 }}> Contatos </h1>
-      <div style={{ width: '54%', display:'flex', justifyContent:'flex-start' }}>
+      <div style={{ width: '75%', display:'flex', justifyContent:'flex-start' }}>
       <Link to='/registerContact'>
           <Button
               variant="contained"
@@ -135,7 +135,7 @@ const Contact =() => {
               style={{ background: '#E56B6F', border: '1px solid #BC5457', width: '10%' }}
 
           >
-              Novo +
+              Novo+
           </Button>
       </Link>
 
