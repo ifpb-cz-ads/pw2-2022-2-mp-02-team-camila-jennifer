@@ -11,7 +11,7 @@ const validateCodeUser = (email) => {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
   const msg = {
-    from: 'camila.casimiro@academico.ifpb.edu.br',
+    from: 'silvajennifer2509@gmail.com',
     to: email,
     subject: 'Confirmação de Email',
     text: 'Confirmação de Email',
