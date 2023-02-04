@@ -225,21 +225,60 @@ exports.userDelete = async (req, res) => {
 };
 
 // Buscar um usuário por email
-exports.getUser = async(req, res) => {
+exports.getUser = async (req, res) => {
   console.log(req.params.id)
   try {
     const user = await User.findOne(
-        {
-          attributes: [
-            'username',
-            'email'
-          ],
-          where: {
-            id: req.params.id
-          },
-        });
+      {
+        attributes: [
+          'username',
+          'email'
+        ],
+        where: {
+          id: req.params.id
+        },
+      });
     res.json({ user: user });
-  } catch(err) {
+  } catch (err) {
     res.send({ message: err.message });
   }
 };
+
+// Cadastrar usuário admin
+exports.userCreateAdmin = async (req, res) => {
+  let user = null;
+  try {
+    user = await User.findOne({
+      where: {
+        email: req.body.email
+      }
+    });
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+
+  if (user != null) {
+    try {
+      user = await User.update(
+        {
+          userAdmin: true
+        },
+        {
+          where:
+          {
+            email: req.body.email
+          }
+        }
+      );
+
+      return res.status(200).json({ message: 'Atualizado.' });
+    } catch (err) {
+      res.json({ message: err.message });
+    }
+
+  }
+};
+
+
+
+

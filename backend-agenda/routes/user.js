@@ -77,6 +77,28 @@ router.post('/register', userController.userCreate);
 
 /**
  * @swagger
+ * /users/registerAdmin:
+ *   post:
+ *     summary: Cria usuário adminstrador.
+ *     description: Cadastra usuário admin.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *              properties:
+ *                 email:
+ *                   type: string
+ *                   example: camila.jennifer@gmail.com
+ *     responses:
+ *       201:
+ *         description: Atualizado.
+ */
+router.post('/registerAdmin', userController.userCreateAdmin);
+
+
+/**
+ * @swagger
  * /users/login:
  *   post:
  *     summary: Login de usuario.
