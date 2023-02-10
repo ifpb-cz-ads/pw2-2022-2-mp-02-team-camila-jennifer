@@ -16,6 +16,7 @@ const Contact =() => {
   const [contact, setContact] = useState([])
   const [rows, setRows] = useState([])
   const [isUpdate, setIsUpdate] = useState({isUpdate: false, id: null})
+  const [removeToken, setRemoveToken] = useState(false)
 
   const contactUser = async (id) => {
     await api.get(`contato/list/${id}`)
@@ -95,6 +96,13 @@ const Contact =() => {
   }
 
   useEffect(() => {
+      console.log(removeToken)
+      if(removeToken){
+          localStorage.removeItem('token')
+      }
+  }, [removeToken])
+
+  useEffect(() => {
       if(user) {
           contactUser(user.id)
       }
@@ -121,9 +129,9 @@ const Contact =() => {
                   <p style={{ marginLeft: 40 }}> Usuários</p>
               </Link>
           }
-          <Link to="/">
-            <p style={{ marginLeft: 40 }}> Sair</p>
-          </Link>
+
+          <Button style={{ marginLeft: 40, color: '#E56B6F' }} onClick={() => setRemoveToken(true)}> Sair</Button>
+
       </div>
 
       <h1 style={{ marginTop: 18 }}> Contatos </h1>

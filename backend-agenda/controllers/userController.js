@@ -158,7 +158,7 @@ exports.userUpdate = async (req, res) => {
         {
           email,
           validatecode: null,
-          code: validateCodeUser(user.email)
+          code: validateCodeUser(email)
         },
         {
           where:

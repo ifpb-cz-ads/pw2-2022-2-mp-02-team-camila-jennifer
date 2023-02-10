@@ -53,6 +53,7 @@ const EditUser = ({userEdit, action}) => {
        } else if (name && email && password) {
             update(user.id)
            setClick(true)
+           setUser({id: null, username: null, email: null})
         }
     }
 
@@ -65,6 +66,12 @@ const EditUser = ({userEdit, action}) => {
             setEmail(user.email)
         }
     }, [])
+
+    useEffect( () => {
+        if (!user.id) {
+            localStorage.removeItem('token')
+        }
+    }, [user])
 
   return (
     <>
